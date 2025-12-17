@@ -98,6 +98,7 @@
                     <effort>Max</effort>
                     <threshold>Medium</threshold>
                     <xmlOutput>true</xmlOutput>
+                    <excludeFilterFile>spotbugs-exclude.xml</excludeFilterFile>
                 </configuration>
             </plugin>
 
