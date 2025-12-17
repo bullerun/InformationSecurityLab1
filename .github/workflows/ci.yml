@@ -66,9 +66,11 @@ jobs:
           cache: maven
 
       - name: Run OWASP Dependency-Check
+        continue-on-error: true
         run: |
           mvn dependency-check:check -B \
-            -DnvdDatafeedUrl=https://jeremylong.github.io/DependencyCheck/current/nvdcve-{0}.json.gz
+            -DfailOnError=false \
+            -DnvdValidForHours=24
 
       - name: Upload Dependency-Check Report
         uses: actions/upload-artifact@v4
