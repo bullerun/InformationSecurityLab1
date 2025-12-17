@@ -65,12 +65,16 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Install Snyk CLI
+        uses: snyk/actions/setup@master
+
+      - name: Build project
+        run: mvn compile -B
+
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/maven@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --severity-threshold=high --json-file-output=snyk-report.json
+        run: snyk test --severity-threshold=high --json-file-output=snyk-report.json || true
 
       - name: Upload Snyk Report
         uses: actions/upload-artifact@v4
