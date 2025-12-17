@@ -41,7 +41,6 @@ jobs:
 
       - name: Run SpotBugs SAST
         run: mvn compile spotbugs:check -B
-        continue-on-error: true
 
       - name: Upload SpotBugs Report
         uses: actions/upload-artifact@v4
@@ -68,14 +67,13 @@ jobs:
 
       - name: Run OWASP Dependency-Check
         run: mvn dependency-check:check -B
-        continue-on-error: true
 
       - name: Upload Dependency-Check Report
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: dependency-check-report
-          path: target/dependency-check-report.html
+          path: target/dependency-check-report.*
           retention-days: 30
 
   test:
