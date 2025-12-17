@@ -39,14 +39,12 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Run SpotBugs
-        run: mvn com.github.spotbugs:spotbugs-maven-plugin:check
+      - name: Run SpotBugs and generate HTML report
+        run: mvn clean compile spotbugs:check site -B
 
-      - name: Spotbugs site compile
-        run: mvn clean compile site
-
-      - name: Upload SpotBugs report
+      - name: Upload SpotBugs HTML report
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: spotbugs-report
           path: target/site/spotbugs.html
