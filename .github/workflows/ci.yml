@@ -68,13 +68,16 @@ jobs:
       - name: Install Snyk CLI
         uses: snyk/actions/setup@master
 
+      - name: Authenticate Snyk
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: snyk auth $SNYK_TOKEN
+
       - name: Build project
         run: mvn compile -B
 
       - name: Run Snyk to check for vulnerabilities
         continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: snyk test --severity-threshold=high --json > snyk-report.json
 
       - name: Upload Snyk Report
