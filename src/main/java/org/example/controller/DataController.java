@@ -5,6 +5,7 @@ import org.example.dto.PostRequest;
 import org.example.dto.PostResponse;
 import org.example.model.User;
 import org.example.service.PostService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +16,8 @@ import java.util.List;
 @RequestMapping("/api")
 public class DataController {
 
-    private final PostService postService;
-
-    public DataController(PostService postService) {
-        this.postService = postService;
-    }
+    @Autowired
+    private PostService postService;
 
     @GetMapping("/data")
     public ResponseEntity<List<PostResponse>> getAllData() {

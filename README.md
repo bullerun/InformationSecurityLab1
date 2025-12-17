@@ -4,7 +4,7 @@
 
 Безопасное backend-приложение на Spring Boot с автоматизированной проверкой кода на уязвимости.
 
-**Стек:** Java 17, Spring Boot 3.2.0, PostgreSQL, Maven
+**Стек:** Java 17, Spring Boot 3.4.10, PostgreSQL, Maven
 
 ## Разработанные эндпоинты
 
@@ -124,19 +124,34 @@ Pipeline настроен в `.github/workflows/ci.yml`:
 
 - **build** — сборка проекта
 - **sast** — SpotBugs (статический анализ кода)
-- **sca** — OWASP Dependency-Check (анализ зависимостей)
+- **sca** — Snyk (анализ зависимостей на уязвимости)
 - **test** — запуск тестов
 
-## Запуск проекта
+## Отчёты SAST/SCA
 
-### 1. Запустить PostgreSQL
+Скрины отчётов взяты с последнего успешно пройденного пайплайна: [Ссылка на Actions](https://github.com/bullerun/InformationSecurityLab1/actions/runs/12377020476)
 
-```bash
-docker-compose up -d
-```
+### SpotBugs (SAST)
 
-### 2. Запустить приложение
+![SpotBugs Report](images/spotbugs-report.png)
 
-```bash
-mvn spring-boot:run
-```
+SpotBugs выполняет статический анализ байт-кода на предмет потенциальных ошибок и уязвимостей.
+
+**Найденные предупреждения:**
+- **EI_EXPOSE_REP2** - класс хранил ссылку на изменяемый объект в поле, что в потенциале могло привести к непредведенным последствиям, если объект будет изменён извне.
+
+### Snyk (SCA)
+
+![Snyk Report](images/snyk-report.png)
+
+Snyk анализирует зависимости проекта на известные уязвимости (CVE).
+
+**Первоначальный анализ обнаружил 31 уязвимость:**
+
+| CVE | Severity | Описание |
+|-----|----------|----------|
+| CVE-2024-1597 | Critical | SQL Injection в PostgreSQL JDBC Driver 42.6.0 |
+| CVE-2024-38816 | High | Path Traversal в Spring WebMVC |
+| CVE-2023-6378 | High | DoS в Logback |
+| — | High | Множество уязвимостей в Tomcat Embed |
+

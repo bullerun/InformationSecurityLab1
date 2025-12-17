@@ -4,6 +4,7 @@ import org.example.dto.PostResponse;
 import org.example.model.User;
 import org.example.repository.UserRepository;
 import org.example.service.PostService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +16,11 @@ import java.util.List;
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
 
-    private final UserRepository userRepository;
-    private final PostService postService;
+    @Autowired
+    private UserRepository userRepository;
 
-    public AdminController(UserRepository userRepository, PostService postService) {
-        this.userRepository = userRepository;
-        this.postService = postService;
-    }
+    @Autowired
+    private PostService postService;
 
     @GetMapping("/users")
     public ResponseEntity<List<UserResponse>> getAllUsers() {

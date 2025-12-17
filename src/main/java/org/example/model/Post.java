@@ -1,5 +1,6 @@
 package org.example.model;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -28,6 +29,7 @@ public class Post {
     public Post() {
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "JPA entity requires direct reference for relationship management")
     public Post(Long id, String title, String content, User author, LocalDateTime createdAt) {
         this.id = id;
         this.title = title;
@@ -69,10 +71,12 @@ public class Post {
         this.content = content;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "JPA entity requires direct reference for lazy loading")
     public User getAuthor() {
         return author;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "JPA entity requires direct reference for relationship management")
     public void setAuthor(User author) {
         this.author = author;
     }
