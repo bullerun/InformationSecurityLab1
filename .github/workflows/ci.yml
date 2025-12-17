@@ -72,9 +72,10 @@ jobs:
         run: mvn compile -B
 
       - name: Run Snyk to check for vulnerabilities
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: snyk test --severity-threshold=high --json-file-output=snyk-report.json || true
+        run: snyk test --severity-threshold=high --json > snyk-report.json
 
       - name: Upload Snyk Report
         uses: actions/upload-artifact@v4
