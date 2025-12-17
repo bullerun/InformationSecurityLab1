@@ -111,6 +111,7 @@ public class Post {
             return this;
         }
 
+        @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Builder pattern for JPA entity requires direct reference")
         public PostBuilder author(User author) {
             this.author = author;
             return this;
